@@ -60,6 +60,7 @@ let
     "--unshare-net"      
     "--unshare-uts"
     "--unshare-cgroup-try"
+    "--new-session"
 
     bindPaths
     bindRoPaths
