@@ -22,6 +22,10 @@ in {
   options.bubblewrap = {
     network = mkEnableOption "network access in the sandbox" // { default = true; };
     shareIpc = mkEnableOption "host IPC namespace in the sandbox";
+    shareUser = mkEnableOption "host user namespace in the sandbox";
+    sharePid = mkEnableOption "host pid namespace in the sandbox";
+    shareUts = mkEnableOption "host uts namespace in the sandbox";
+    shareCgroup = mkEnableOption "host cgroup namespace in the sandbox";
 
     bind.rw = mkOption {
       description = "Read-write paths to bind-mount into the sandbox.";
@@ -83,6 +87,24 @@ in {
       description = "Environment variables to set.";
       type = with types; attrsOf (nullOr sloth.type);
       default = {};
+    };
+
+    newSession = mkOption {
+      description = "Create a new terminal session for the sandbox.";
+      type = types.bool;
+      default = false;
+    };
+
+    disableUserns = mkOption {
+      description = "Prevent the process in the sandbox from creating further user namespaces (This option requires --unshare-user).";
+      type = types.bool;
+      default = false;
+    };
+
+    dieWithParent = mkOption {
+      description = "Ensures child process (COMMAND) dies when bwrap's parent dies.";
+      type = types.bool;
+      default = false;
     };
   };
 

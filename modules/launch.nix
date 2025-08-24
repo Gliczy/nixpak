@@ -54,12 +54,16 @@ let
 
   bwrapArgs = flatten [
     # This is the equivalent of --unshare-all, see bwrap(1) for details.
-    "--unshare-user-try"
+    (optionals (!config.bubblewrap.shareUser)  "--unshare-user-try")
     (optionals (!config.bubblewrap.shareIpc) "--unshare-ipc")
-    "--unshare-pid"
-    "--unshare-net"      
-    "--unshare-uts"
-    "--unshare-cgroup-try"
+    (optionals (!config.bubblewrap.sharePid) "--unshare-pid")
+    "--unshare-net"
+    (optionals (!config.bubblewrap.shareUts) "--unshare-uts")
+    (optionals (!config.bubblewrap.shareCgroup) "--unshare-cgroup-try")
+
+    (optionals (config.bubblewrap.newSession) "--new-session")
+    (optionals (config.bubblewrap.disableUserns) "--disable-userns")
+    (optionals (config.bubblewrap.dieWithParent) "--die-with-parent")
 
     bindPaths
     bindRoPaths
