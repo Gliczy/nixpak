@@ -62,6 +62,7 @@ let
     (optionals (!config.bubblewrap.shareCgroup) "--unshare-cgroup-try")
 
     (optionals (config.bubblewrap.newSession) "--new-session")
+    (optionals (config.bubblewrap.disableUserns) "--unshare-user")
     (optionals (config.bubblewrap.disableUserns) "--disable-userns")
     (optionals (config.bubblewrap.dieWithParent) "--die-with-parent")
 
